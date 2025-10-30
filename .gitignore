@@ -7,9 +7,9 @@ error_outputs/
 asts/
 ast_diffs/
 doc/
-
+*.o
 lex.yy.c
-
+y.tab.*
 y.output
 parser
 .DS_Store
