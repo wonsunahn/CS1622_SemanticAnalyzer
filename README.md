@@ -431,7 +431,7 @@ type_errors.mjava which is worth 3 points.  The type_errors.mjava error
 handling is more difficult compared to others.
 
 Please submit the Extra Credit in a separate GradeScope link named **"Project 3
-Extra Credit"** by **December 13 (Friday) 11:59 PM**, with Project 4.
+Extra Credit"** by **December 15 (Monday) 11:59 PM**, with Project 4.
 
 ### Appendix E: Obtaining the solution for Project 2
 
