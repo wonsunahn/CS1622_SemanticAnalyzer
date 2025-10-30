@@ -70,8 +70,8 @@ clang++-10 -stdlib=libc++ -g -I . `llvm-config-10 --cxxflags --ldflags --system-
 
 We are using Clang version 10. Clang++ is the Clang C++ compiler and clang is
 the C compiler.  The Clang compiler was pre-installed on the Docker image used
-to create the codespace (see [.devcontainer/Dockerfile] if you want to see the
-full list of packages).
+to create the codespace (see [.devcontainer/Dockerfile](.devcontainer/Dockerfile)
+if you want to see the full list of packages).
 
 After creating the parser binary, you are able to use the VSCode Debugger to step
 through the code, put breakpoints, just like for Projects 1 and 2.  Refer to the
