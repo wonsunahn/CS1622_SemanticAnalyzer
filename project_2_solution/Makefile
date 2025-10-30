@@ -39,11 +39,11 @@ parser: ${OBJ}
 lex.yy.c: lex.l
 	$(FLEX) lex.l
 
-y.tab.h: grammar.y lex.yy.c
-	$(YACC) -d -v grammar.y
+# y.tab.h: grammar.y lex.yy.c
+# 	$(YACC) -d -v grammar.y
 
-y.tab.c: grammar.y lex.yy.c
-	$(YACC) -d -v grammar.y
+# y.tab.c: grammar.y lex.yy.c
+# 	$(YACC) -d -v grammar.y
 
 %.o: %.cpp ${HEADERS}
 	${CXX} ${CFLAGS} ${LLVMCXXFLAGS} -c $< -o $@
@@ -113,4 +113,5 @@ endef
 $(foreach test,$(TESTS),$(eval $(call ast_diff_rules,$(test))))
 
 clean:
-	rm -f parser y.tab.* lex.yy.c ${OBJ} outputs/*.out output_diffs/*.diff line_outputs/*.out line_diffs/*.diff error_outputs/*.out error_diffs/*.diff asts/*.png ast_diffs/*.png asts/*.gv ast_diffs/*.gv
+# 	rm -f parser y.tab.* lex.yy.c ${OBJ} outputs/*.out output_diffs/*.diff line_outputs/*.out line_diffs/*.diff error_outputs/*.out error_diffs/*.diff asts/*.png ast_diffs/*.png asts/*.gv ast_diffs/*.gv
+	rm -f parser lex.yy.c ${OBJ} outputs/*.out output_diffs/*.diff line_outputs/*.out line_diffs/*.diff error_outputs/*.out error_diffs/*.diff asts/*.png ast_diffs/*.png asts/*.gv ast_diffs/*.gv

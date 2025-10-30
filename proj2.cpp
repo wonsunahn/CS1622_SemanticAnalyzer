@@ -11,6 +11,7 @@ The functions in this file are contributed by Chunmin Qiao and
 Aggelos Varvitsiotis.
 */
 
+#include <string>
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -22,7 +23,7 @@ extern "C"
 #include "proj3.h"
 
 extern int yyline;
-extern char* getString(int index);
+extern char *getString(int index);
 
 ILTree dummy = {DUMMYNode, 0, 0, 0, 0};
 
@@ -268,15 +269,15 @@ extern "C" void SetRightChild(tree T, tree NewC)
 
 /*****************************************************************/
 /*	This is syntax tree printer, "treelst" is the output file
-	pointer.
+	pointer for the text based format.
 
-	call printtree with the root node pointer and the depth level
+	call printTreeText with the root node pointer and the depth level
 	(could be 0 if you do not want the root to be indent)
  ****************************************************************/
 
 FILE *treelst;
 
-const char *opnodenames[] =
+static const char *opnodenames[] =
 	{
 		"ProgramOp", "BodyOp", "DeclOp", "CommaOp", "ArrayTypeOp", "TypeIdOp",
 		"BoundOp", "RecompOp",
@@ -286,7 +287,8 @@ const char *opnodenames[] =
 		"AddOp", "SubOp", "MultOp", "DivOp",
 		"LTOp", "GTOp", "EQOp", "NEOp", "LEOp", "GEOp", "AndOp", "OrOp",
 		"UnaryNegOp", "NotOp", "VarOp", "SelectOp", "IndexOp", "FieldOp",
-		"SubrangeOp", "ExitOp", "ClassOp", "MethodOp", "ClassDefOp"};
+		"SubrangeOp", "ExitOp", "ClassOp", "MethodOp", "ClassDefOp"
+	};
 
 static int crosses[162];
 
@@ -309,16 +311,14 @@ static void zerocrosses()
 		crosses[i] = 0;
 }
 
-extern "C" const char* getNodeOpString(tree nd)
+const char *getNodeOpString(tree nd)
 {
-	assert (NodeKind(nd) == EXPRNode);
+	assert(NodeKind(nd) == EXPRNode);
 	return opnodenames[NodeOp(nd) - ProgramOp];
 }
 
-extern "C" void printtree(tree nd, int depth)
+void printTreeText(tree nd, int depth)
 {
-	int id, indx;
-
 	if (!depth)
 	{
 		zerocrosses();
@@ -331,34 +331,37 @@ extern "C" void printtree(tree nd, int depth)
 		return;
 	}
 	if (NodeKind(nd) == EXPRNode)
-		printtree(RightChild(nd), depth + 1);
+		printTreeText(RightChild(nd), depth + 1);
 	indent(depth);
 	switch (NodeKind(nd))
 	{
 	case IDNode:
-		indx = IntVal(nd);
-		if (indx >= 0)
+	{
+		int index = IntVal(nd);
+		if (index >= 0)
 		{
-			id = indx; /*GetAttr(indx, NAME_ATTR); */
 			fprintf(treelst, "[IDNode,%d,\"%s\"]\n", IntVal(nd),
-					getString(id));
+					getString(index));
 		}
 		else
-			fprintf(treelst, "[IDNode,%d,\"%s\"]\n", indx, "err");
-		break;
+			fprintf(treelst, "[IDNode,%d,\"%s\"]\n", index, "err");
+	}
+	break;
 
 	case STNode:
-		indx = IntVal(nd);
-		if (indx >= 0)
+	{
+		int index = IntVal(nd);
+		if (index >= 0)
 		{
-			id = GetAttr(indx, NAME_ATTR);
+			int id = GetAttr(index, NAME_ATTR);
 			fprintf(treelst, "[STNode,%d,\"%s\"]\n", IntVal(nd),
 					getString(id));
 		}
 		else
-			fprintf(treelst, "[IDNode,%d,\"%s\"]\n", indx, "err");
-		break;
-		
+			fprintf(treelst, "[IDNode,%d,\"%s\"]\n", index, "err");
+	}
+	break;
+
 	case INTEGERTNode:
 		fprintf(treelst, "[INTEGERTNode]\n");
 		break;
@@ -390,5 +393,107 @@ extern "C" void printtree(tree nd, int depth)
 		break;
 	}
 	if (NodeKind(nd) == EXPRNode)
-		printtree(LeftChild(nd), depth + 1);
+		printTreeText(LeftChild(nd), depth + 1);
+}
+
+/*****************************************************************/
+/*	This is syntax tree printer, "treeimg" is the output file
+	pointer for the graphviz image format.
+ ****************************************************************/
+
+FILE *treeimg;
+
+static const char *frontMatter = "graph \"\" \n\
+   { \n\
+   fontname=\"Helvetica,Arial,sans-serif\" \n\
+   node [fontname=\"Helvetica,Arial,sans-serif\"] \n\
+   edge [fontname=\"Helvetica,Arial,sans-serif\"] \n\
+   \n\
+   subgraph cluster01 \n\
+   { \n\
+   label=\"Syntax Tree\" \n";
+
+static const char *backMatter = "   } \n\
+   } \n";
+
+void printTreeGraphviz(tree nd, std::string parentNodeId, std::string currentNodeId)
+{
+
+	if (parentNodeId == "") {
+		fprintf(treeimg, "%s", frontMatter);
+	}
+
+	switch (NodeKind(nd))
+	{
+	case IDNode:
+	{
+		int index = IntVal(nd);
+		if (index >= 0)
+		{
+			fprintf(treeimg, "   %s [label=\"IDNode,%d,\\\"%s\\\"\"] ;\n", currentNodeId.c_str(), IntVal(nd),
+					getString(index));
+		}
+		else
+			fprintf(treeimg, "   %s [label=\"IDNode,%d,\\\"%s\\\"\"] ;\n", currentNodeId.c_str(), index, "err");
+	}
+	break;
+
+	case STNode:
+	{
+		int index = IntVal(nd);
+		if (index >= 0)
+		{
+			int id = GetAttr(index, NAME_ATTR);
+			fprintf(treeimg, "   %s [label=\"STNode,%d,\\\"%s\\\"\"] ;\n", currentNodeId.c_str(), IntVal(nd),
+					getString(id));
+		}
+		else
+			fprintf(treeimg, "   %s [label=\"IDNode,%d,\\\"%s\\\"\"] ;\n", currentNodeId.c_str(), index, "err");
+	}
+	break;
+
+	case INTEGERTNode:
+		fprintf(treeimg, "   %s [label=\"INTEGERTNode\"] ;\n", currentNodeId.c_str());
+		break;
+
+	case NUMNode:
+		fprintf(treeimg, "   %s [label=\"NUMNode,%d\"] ;\n", currentNodeId.c_str(), IntVal(nd));
+		break;
+
+	case CHARNode:
+		if (isprint(IntVal(nd)))
+			fprintf(treeimg, "   %s [label=\"CHARNode,%d,\\'%c\\'\"] ;\n", currentNodeId.c_str(), IntVal(nd), IntVal(nd));
+		else
+			fprintf(treeimg, "   %s [label=\"CHARNode,%d,\\'%o\\'\"] ;\n",
+					currentNodeId.c_str(), IntVal(nd), IntVal(nd));
+		break;
+
+	case STRINGNode:
+		fprintf(treeimg, "   %s [label=\"STRINGNode,%d,\\\"%s\\\"\"] ;\n", currentNodeId.c_str(), IntVal(nd),
+				getString(IntVal(nd)));
+		break;
+
+	case EXPRNode:
+		fprintf(treeimg, "   %s [label=\"%s\"] ;\n", currentNodeId.c_str(), getNodeOpString(nd));
+		break;
+
+	default:
+		if (IsNull(nd))
+			fprintf(treeimg, "   %s [label=\"DUMMYnode\"] ;\n", currentNodeId.c_str());
+		else
+			fprintf(treeimg, "   %s [label=\"INVALID!!!\"] ;\n", currentNodeId.c_str());
+		break;
+	}
+
+	if (parentNodeId != "") {
+		fprintf(treeimg, "   %s -- %s ;\n", parentNodeId.c_str(), currentNodeId.c_str());
+	}
+	if (NodeKind(nd) == EXPRNode) {
+		printTreeGraphviz(LeftChild(nd), currentNodeId, currentNodeId + "0");
+		printTreeGraphviz(RightChild(nd), currentNodeId, currentNodeId + "1");
+	}
+
+	if (parentNodeId == "") {
+		fprintf(treeimg, "%s", backMatter);
+	}
 }
