@@ -140,11 +140,8 @@ At this stage, you are simply porting over the code that you wrote in Project 2
 to this project.  You can simply overwrite the lex.l and grammar.y files from
 Project 2 to complete these files.  For table.cpp, please fill in the function
 bodies of **addStringTable** and **getString** with the code from Project 2.
-Please be careful not to overwrite the function declarations because I have
-removed the extern "C" linkage specifier from the getString function and if you
-add it back in, you will get link errors.  Also, table.cpp has a new function
-getIndex that you will need to implement, that will be explained in the next
-section.
+Also, table.cpp has a new function getIndex that you will need to implement,
+that will be explained in the next section.
 
 If you got this far, try doing 'make' again and you should see the following
 content in the outputs/minimal.out file.
