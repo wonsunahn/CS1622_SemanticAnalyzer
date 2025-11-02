@@ -18,12 +18,12 @@ ERRORS = $(wildcard errors/*.mjava)
 ERROR_OUTPUTS := $(foreach error,$(ERRORS),error_outputs/$(error:errors/%.mjava=%).out)
 ERROR_DIFFS := $(foreach error,$(ERRORS),error_diffs/$(error:errors/%.mjava=%).diff)
 
-CXX = clang++-10 -stdlib=libc++
-CC = clang-10
+CXX = clang++-12 -stdlib=libc++
+CC = clang-12
 CFLAGS = -g -I .
-LLVMCXXFLAGS = `llvm-config-10 --cxxflags`
-LLVMCFLAGS = `llvm-config-10 --cflags`
-LLVMFLAGS = `llvm-config-10 --cxxflags --ldflags --system-libs --libs all`
+LLVMCXXFLAGS = `llvm-config-12 --cxxflags`
+LLVMCFLAGS = `llvm-config-12 --cflags`
+LLVMFLAGS = `llvm-config-12 --cxxflags --ldflags --system-libs --libs all`
 
 FLEX = flex
 YACC = yacc

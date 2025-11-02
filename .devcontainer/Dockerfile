@@ -1,6 +1,6 @@
-FROM mcr.microsoft.com/devcontainers/cpp:1-ubuntu-20.04
+FROM mcr.microsoft.com/devcontainers/cpp:1-ubuntu-22.04
 
 # [Optional] Uncomment this section to install additional packages.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install flex bison graphviz gawk clang-10 lldb-10 lld-10 clangd-10 clang-tidy-10 clang-format-10 clang-tools-10 llvm-10-dev llvm-10-tools libomp-10-dev libc++-10-dev libc++abi-10-dev libclang-common-10-dev libclang-10-dev libclang-cpp10-dev
+    && apt-get -y install flex bison graphviz gawk clang-12 lldb-12 lld-12 clangd-12 clang-tidy-12 clang-format-12 clang-tools-12 llvm-12-dev llvm-12-tools libomp-12-dev libc++-12-dev libc++abi-12-dev libclang-common-12-dev libclang-12-dev libclang-cpp12-dev libunwind-dev
 
