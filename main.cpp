@@ -49,7 +49,7 @@ int main(int argc, char **argv)
   std::string outputFileName, inputFileName, graphVizFileName;
   bool verbose = false;
   bool printLineNo = false;
-  char c;
+  int c;
 
   while ((c = getopt(argc, argv, "hp:vwl0")) != -1)
   {
