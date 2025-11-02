@@ -4,10 +4,10 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/",
-                "/usr/lib/llvm-10/include/"
+                "/usr/lib/llvm-12/include/"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/clang++-10",
+            "compilerPath": "/usr/bin/clang++-12",
             "cStandard": "c17",
             "cppStandard": "c++14",
             "intelliSenseMode": "linux-clang-x64"
