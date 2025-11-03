@@ -22,10 +22,6 @@ RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-12 100 \
 
 # Link libunwind8.so.1 to libunwind.so since clang-12 looks for libunwind.so, and it expects version 1
 # For x86 architectures
-RUN if [ -e /usr/lib/x86_64-linux-gnu/libunwind.so.1 ]; then \
-        ln -s /usr/lib/x86_64-linux-gnu/libunwind.so.1 /usr/lib/x86_64-linux-gnu/libunwind.so \
-    fi
+RUN [ -f "/usr/lib/x86_64-linux-gnu/libunwind.so.1" ] && ln -s /usr/lib/x86_64-linux-gnu/libunwind.so.1 /usr/lib/x86_64-linux-gnu/libunwind.so || exit 0
 # For ARM architectures
-RUN if [ -e /usr/lib/aarch64-linux-gnu/libunwind.so.1 ]; then \
-        ln -s /usr/lib/aarch64-linux-gnu/libunwind.so.1 /usr/lib/aarch64-linux-gnu/libunwind.so \
-    fi
+RUN [ -f "/usr/lib/aarch64-linux-gnu/libunwind.so.1" ] && ln -s /usr/lib/aarch64-linux-gnu/libunwind.so.1 /usr/lib/aarch64-linux-gnu/libunwind.so || exit 0
