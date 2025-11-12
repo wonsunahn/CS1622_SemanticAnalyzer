@@ -114,4 +114,4 @@ $(foreach test,$(TESTS),$(eval $(call ast_diff_rules,$(test))))
 
 clean:
 # 	rm -f parser y.tab.* lex.yy.c ${OBJ} outputs/*.out output_diffs/*.diff line_outputs/*.out line_diffs/*.diff error_outputs/*.out error_diffs/*.diff asts/*.png ast_diffs/*.png asts/*.gv ast_diffs/*.gv
-	rm -f parser lex.yy.c ${OBJ} outputs/*.out output_diffs/*.diff line_outputs/*.out line_diffs/*.diff error_outputs/*.out error_diffs/*.diff asts/*.png ast_diffs/*.png asts/*.gv ast_diffs/*.gv
+	rm -f parser lex.yy.c $(filter-out y.tab.o, $(OBJ)) outputs/*.out output_diffs/*.diff line_outputs/*.out line_diffs/*.diff error_outputs/*.out error_diffs/*.diff asts/*.png ast_diffs/*.png asts/*.gv ast_diffs/*.gv
