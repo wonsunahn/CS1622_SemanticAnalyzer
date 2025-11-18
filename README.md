@@ -58,14 +58,14 @@ This results in the following output:
 $ make build
 flex lex.l
 yacc -d -v grammar.y
-clang++-10 -stdlib=libc++ -g -I . `llvm-config-10 --cxxflags` -c table.cpp -o table.o
-clang++-10 -stdlib=libc++ -g -I . `llvm-config-10 --cxxflags` -c proj2.cpp -o proj2.o
-clang++-10 -stdlib=libc++ -g -I . `llvm-config-10 --cxxflags` -c proj3.cpp -o proj3.o
-clang++-10 -stdlib=libc++ -g -I . `llvm-config-10 --cxxflags` -c main.cpp -o main.o
-clang++-10 -stdlib=libc++ -g -I . `llvm-config-10 --cxxflags` -c semantic.cpp -o semantic.o
-clang++-10 -stdlib=libc++ -g -I . `llvm-config-10 --cxxflags` -c llvm/LLVMGlobals.cpp -o llvm/LLVMGlobals.o
-clang-10 -g -I . `llvm-config-10 --cflags` -c y.tab.c -o y.tab.o
-clang++-10 -stdlib=libc++ -g -I . `llvm-config-10 --cxxflags --ldflags --system-libs --libs all` -o parser ./table.o ./proj2.o ./proj3.o ./main.o ./semantic.o y.tab.o -lfl
+clang++-12 -stdlib=libc++ -g -I . `llvm-config-12 --cxxflags` -c table.cpp -o table.o
+clang++-12 -stdlib=libc++ -g -I . `llvm-config-12 --cxxflags` -c proj2.cpp -o proj2.o
+clang++-12 -stdlib=libc++ -g -I . `llvm-config-12 --cxxflags` -c proj3.cpp -o proj3.o
+clang++-12 -stdlib=libc++ -g -I . `llvm-config-12 --cxxflags` -c main.cpp -o main.o
+clang++-12 -stdlib=libc++ -g -I . `llvm-config-12 --cxxflags` -c semantic.cpp -o semantic.o
+clang++-12 -stdlib=libc++ -g -I . `llvm-config-12 --cxxflags` -c llvm/LLVMGlobals.cpp -o llvm/LLVMGlobals.o
+clang-12 -g -I . `llvm-config-12 --cflags` -c y.tab.c -o y.tab.o
+clang++-12 -stdlib=libc++ -g -I . `llvm-config-12 --cxxflags --ldflags --system-libs --libs all` -o parser ./table.o ./proj2.o ./proj3.o ./main.o ./semantic.o y.tab.o -lfl
 ```
 
 We are using Clang version 10. Clang++ is the Clang C++ compiler and clang is
@@ -360,7 +360,7 @@ You can use the VSCode Debugger just like you did for previous projects.  You
 will have to edit the .vscode/launch.json file so that you use the mjava file
 that you want as input.  But otherwise, it should work smoothly.
 
-If you want to do commandline debugging, you need to use the **lldb-10**
+If you want to do commandline debugging, you need to use the **lldb-12**
 debugger instead of gdb as now we are using the Clang/LLVM compiler.
 
 If you think you have a memory bug, you can run **valgrind** as such:
